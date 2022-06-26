@@ -3,5 +3,3 @@ build
 coverage
 public
 .docz
-scripts/workshop-setup.js
-
