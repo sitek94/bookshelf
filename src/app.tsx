@@ -1,8 +1,6 @@
-import '@reach/dialog/styles.css'
 import * as React from 'react'
-import {createRoot} from 'react-dom/client'
-import {Dialog} from '@reach/dialog'
 import {Logo} from 'components/logo'
+import {Dialog} from '@reach/dialog'
 
 function LoginForm({onSubmit, buttonText}) {
   function handleSubmit(event) {
@@ -71,6 +69,4 @@ function App() {
   )
 }
 
-const root = createRoot(document.getElementById('root'))
-root.render(<App />)
-export {root}
+export default App
