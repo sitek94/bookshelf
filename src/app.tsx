@@ -1,7 +1,9 @@
+import '@reach/dialog/styles.css'
 import * as React from 'react'
 import {Logo} from 'components/logo'
 import {Dialog} from '@reach/dialog'
-
+import {Button, CircleButton, FormGroup, Input} from './components/lib'
+import {VisuallyHidden} from '@reach/visually-hidden'
 function LoginForm({onSubmit, buttonText}) {
   function handleSubmit(event) {
     event.preventDefault()
@@ -14,25 +16,54 @@ function LoginForm({onSubmit, buttonText}) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form
+      onSubmit={handleSubmit}
+      css={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        '> div': {
+          margin: '10px auto',
+          width: '100%',
+          maxWidth: '300px',
+        },
+      }}
+    >
+      <FormGroup>
         <label htmlFor="username">Username</label>
-        <input id="username" />
-      </div>
-      <div>
+        <Input id="username" />
+      </FormGroup>
+      <FormGroup>
         <label htmlFor="password">Password</label>
-        <input id="password" type="password" />
-      </div>
+        <Input id="password" type="password" />
+      </FormGroup>
       <div>
-        <button type="submit">{buttonText}</button>
+        <Button type="submit">{buttonText}</Button>
       </div>
     </form>
   )
 }
 
-function App() {
-  const [openModal, setOpenModal] = React.useState('none')
+function Modal({button, label, children}) {
+  const [isOpen, setIsOpen] = React.useState(false)
 
+  return (
+    <>
+      {React.cloneElement(button, {onClick: () => setIsOpen(true)})}
+      <Dialog aria-label={label} isOpen={isOpen}>
+        <div css={{display: 'flex', justifyContent: 'flex-end'}}>
+          <CircleButton onClick={() => setIsOpen(false)}>
+            <VisuallyHidden>Close</VisuallyHidden>
+            <span aria-hidden>×</span>
+          </CircleButton>
+        </div>
+        {children}
+      </Dialog>
+    </>
+  )
+}
+
+function App() {
   function login(formData) {
     console.log('login', formData)
   }
@@ -42,29 +73,37 @@ function App() {
   }
 
   return (
-    <div>
+    <div
+      css={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100vh',
+      }}
+    >
       <Logo width="80" height="80" />
       <h1>Bookshelf</h1>
-      <div>
-        <button onClick={() => setOpenModal('login')}>Login</button>
+      <div
+        css={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+          gridGap: '0.75rem',
+        }}
+      >
+        <Modal label="Login form" button={<Button>Login</Button>}>
+          <h3 css={{textAlign: 'center', fontSize: '2em'}}>Login</h3>
+          <LoginForm onSubmit={login} buttonText="Login" />
+        </Modal>
+        <Modal
+          label="Registration form"
+          button={<Button variant="secondary">Register</Button>}
+        >
+          <h3 css={{textAlign: 'center', fontSize: '2em'}}>Register</h3>
+          <LoginForm onSubmit={register} buttonText="Register" />
+        </Modal>
       </div>
-      <div>
-        <button onClick={() => setOpenModal('register')}>Register</button>
-      </div>
-      <Dialog aria-label="Login form" isOpen={openModal === 'login'}>
-        <div>
-          <button onClick={() => setOpenModal('none')}>Close</button>
-        </div>
-        <h3>Login</h3>
-        <LoginForm onSubmit={login} buttonText="Login" />
-      </Dialog>
-      <Dialog aria-label="Registration form" isOpen={openModal === 'register'}>
-        <div>
-          <button onClick={() => setOpenModal('none')}>Close</button>
-        </div>
-        <h3>Register</h3>
-        <LoginForm onSubmit={register} buttonText="Register" />
-      </Dialog>
     </div>
   )
 }
