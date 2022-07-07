@@ -13,6 +13,10 @@ want to spend time migrating each module over to TypeScript. I just want to get
 a bit of type safety and leave the door open for eventual future experiments
 using TypeScript.
 
+## Resources
+
+- [Make Your Own DevTools](https://kentcdodds.com/blog/make-your-own-dev-tools)
+
 ## Scripts
 
 ```shell

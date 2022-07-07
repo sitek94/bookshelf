@@ -1,9 +1,12 @@
+/** @jsxImportSource @emotion/react */
+
 import '@reach/dialog/styles.css'
 import * as React from 'react'
 import {Logo} from 'components/logo'
 import {Dialog} from '@reach/dialog'
 import {Button, CircleButton, FormGroup, Input} from './components/lib'
 import {VisuallyHidden} from '@reach/visually-hidden'
+
 function LoginForm({onSubmit, buttonText}) {
   function handleSubmit(event) {
     event.preventDefault()
